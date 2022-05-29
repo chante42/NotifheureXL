@@ -6,6 +6,8 @@
 //***********************************************
 // *********  Byfeel 2019 ***********************
 // **********************************************
+#include <Arduino.h>
+#include <Hash.h>
 #define ARDUINOJSON_USE_LONG_LONG 1
 #define _VERSION "1.1.1"
 #define _HARDWARE "NotifheureXL"
@@ -359,7 +361,11 @@ bool handleFileRead(String path);
 void handleFileUpload();
 String getPage();
 size_t strlcpy(char *dst, const char *src, size_t size);
-
+void BoutonAction(byte btn , byte btnclic );
+void testnet();
+void MQTTconfig();
+void wifiReset();
+void MQTTsend();
 //nom upload
 File fsUploadFile;
 
@@ -1202,7 +1208,6 @@ String createJson(sConfigSys  &config,bool flagCreate=false) {
   docConfig["LASTSYNCHRO"]=_lastSynchro;
   docConfig["DATE"]=now();
   //DHT
-  GetTemp();
   docConfig["DHT"] = _dht;
   docConfig["TEMP"]= temperature;
   docConfig["HUM"]= humidity;
@@ -3320,7 +3325,8 @@ if (configSys.broker) {
   MQTTclient.setServer(configSys.servbroker, configSys.portbroker);
   MQTTclient.setCallback(MQTTcallback);
   // buffer mqtt
-  MQTTclient.setBufferSize(1024);
+  // -=- OCH : remplacement par la valuer 1024 dans le code ramener dans /lib, car byfeel ne livre pas le code modifié 
+  // MQTTclient.setBufferSize(1024);
 }
 //serveur WEB
 //server.on("/Notification",handleNotif); //Gestion des Notifications
